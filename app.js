@@ -263,7 +263,7 @@ app.route('/api/invoices/:invoice_id/items/:id')
     });
   }) 
   .put(function(req, res) {
-    InvoiceItem.findById(req.params.invoice_id).then(function(invoice_item) {
+    InvoiceItem.findById(req.params.id).then(function(invoice_item) {
       invoice_item.update(_.pick(req.body, ['product_id', 'quantity'])).then(function(invoice_item) {
         res.json(invoice_item);
       });
