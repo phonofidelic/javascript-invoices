@@ -128,7 +128,7 @@ sequelize.sync().then(function() {
 var app = module.exports = express();
 app.set('port', process.env.PORT || 8000);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 

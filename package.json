@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "body-parser": "1.15.0",
+    "body-parser": "1.15.2",
     "express": "~4.13.4",
     "sequelize": "^3.20.0",
     "sqlite3": "latest",
