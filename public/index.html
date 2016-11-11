@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:ng="http://angularjs.org" ng-app="invoiceApp">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/app.css">
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
   </head>
   <body>
 
@@ -34,10 +36,12 @@
     </nav>
 
     <div class="container">
-      
+      <invoices-directive></invoices-directive>
     </div> <!-- /container -->
 
     <script type="text/javascript" src="/js/lib/jquery/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/app.module.js"></script>
+    <script type="text/javascript" src="/js/modules/Invoices/Invoices.js"></script>
   </body>
 </html>

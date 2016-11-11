@@ -1,0 +1,19 @@
+.invoice-form {
+	margin-top: 10px;
+}
+
+.selected-products-container {
+	margin-bottom: 10px;
+}
+
+.delete-item {
+	color: #000;
+}
+.delete-item:hover {
+	color: red;
+	cursor: pointer;
+}
+
+.selected-product-name {
+	margin-right: 100px;
+}
