@@ -1,0 +1,15 @@
+<h2>Invoices</h2>
+<div>
+	<ul>
+		<li ng-repeat="invoice in invoices">id: {{invoice.invoice_id}}</li>
+	</ul>
+</div>
+<button type="button" 
+		class="btn btn-default" 
+		ng-init="showForm = false"
+		ng-click="createNewInvoice(); showForm = !showForm">Create new invoice
+</button>
+
+<form ng-show="showForm">
+	form
+</form>
