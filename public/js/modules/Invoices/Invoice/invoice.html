@@ -1,0 +1,48 @@
+<form class="invoice-form well" ng-init="ctrl.getInvoice(invoice.id)">
+{{invoice.id}}
+	<h3 ng-init="ctrl.getCustomer(ctrl.invoice.customer_id)">Invoice for {{ctrl.customer.name}}
+	<!-- {{invoice}} -->
+	</h3>
+
+	<label for="customers">
+		<input list="customers" 
+			   name="customers" 
+			   ng-model="ctrl.invoice"
+			   ng-click ="ctrl.invoice = ''"
+			   ng-blur="ctrl.addCustomerToInvoice(invoice.id, ctrl.invoice)">
+	</label>
+	<datalist id="customers">
+		<option ng-repeat="customer in vm.customers"
+				value="{{customer.name}}, id: {{customer.id}}" />
+	</datalist>
+
+	<label for="products">Add products:
+	</label>
+	<select id="products" ng-model="ctrl.currentProduct">
+		<option ng-repeat="product in vm.products track by $index" 
+				value="{{product}}">{{product.name}}
+		</option>
+	</select>
+
+	<button type="button" class="btn btn-default" ng-click="ctrl.addProduct(ctrl.currentProduct, invoice.id)">add</button>	
+
+	<table class="table selected-products">
+		<tr ng-repeat="item in ctrl.selectedProducts track by $index" ng-init="item.quantity = 1">
+			<td>
+				<span class="delete-item" ng-click="deleteProduct($index)">&#10006;</span> 
+				<span class="selected-product-name">{{item.name}}</span>
+			</td>
+			<td>
+				<input type="number" name="" ng-model="item.quantity">
+			</td>
+			<td>
+				<span class="item-price">{{item.price}}</span>
+			</td>
+			<td>total: {{item.price * item.quantity}}</td>
+		</tr>
+	</table>
+	<div ng-model="productTotal"><h4>Total:</h4></div>
+
+	<button type="button" class="btn btn-danger" ng-click="vm.deleteInvoice(invoice.id, $index)">cancle</button>
+
+</form>

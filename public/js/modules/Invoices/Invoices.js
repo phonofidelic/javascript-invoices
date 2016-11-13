@@ -1,37 +1,51 @@
 'use-strict';
 
-angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http', '$log', 'InvoicesService', function($scope, $http, $log, InvoicesService) {
-	$scope.invoices = [];
-	$scope.selectedProducts = [];
+angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http', '$log', 'DataService', function($scope, $http, $log, DataService) {
+	var vm = this;
+	vm.invoices = [];
+	vm.products = [];
+	vm.selectedProducts = [];
 
 
-	$scope.getInvoices = function() {
-		$http.get('/api/invoices').then(function(response) {
-			$log.log('getInvoices response:', response);
-			$scope.invoices = response.data;
+	// vm.getInvoices = function() {
+		DataService.getInvoices(function(response) {
+			$log.log('getInvoices:', response);
+			vm.invoices = response.data;
+		});
+		// $http.get('/api/invoices').then(function(response) {
+		// 	$log.log('getInvoices response:', response);
+		// 	$scope.invoices = response.data;
+		// });
+	// };
+
+	// get customers
+	DataService.getCustomers(function(response) {
+		$log.log('getCustomers:', response);
+		vm.customers = response.data;
+	});
+
+	// get products
+	$http.get('/api/products').then(function(response) {
+		$log.log('products response:', response);
+		vm.products = response.data;
+	});
+
+	vm.addInvoice = function() {
+		DataService.addInvoice(function(response) {
+			$log.log('addInvoice:', response);
+			vm.invoices.push({});
+			$http.post('/api/invoices/' + response.data.id + '/items/').then(function(response) {
+				$log.log('add invoice items response:', response)
+			})
 		});
 	};
 
-	$scope.addInvoice = function() {
-		$log.log('create new invoice');
-		$scope.invoices.push({});
-		$http.post('/api/invoices', {}).then(function(response) {
-			$log.log('invoice put response:', response);
-			$http.post('/api/invoices/' + response.data.id + '/items', {invoiceItems: []}).then(function(response) {
-				$log.log('addInvoiceItems response:', response);
-			});
-			$scope.getInvoices();
-		});
+	vm.deleteInvoice = function(id, index) {
+		DataService.deleteInvoice(id);
+		vm.invoices.splice(index, 1);
 	};
 
-	$scope.deleteInvoice = function(id, index) {
-		$http.delete('api/invoices/' + id).then(function(response) {
-			$log.log('invoice delete response:', response);
-			$scope.invoices.splice(index, 1);
-		});
-	};
-
-	$scope.addInvoiceItems = function(id) {
+	vm.addInvoiceItems = function(id) {
 		$http.put('/api/invoices' + id + '/items').then(function(response) {
 			$log.log('addInvoiceItems response:', response);
 		});
@@ -41,13 +55,6 @@ angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http'
 		$http.get('/api/invoices/' + id + '/items').then(function(response) {
 			$log.log('getInvoiceItems response:', response);
 
-		});
-	};
-
-	$scope.getCustomers = function() {
-		$http.get('/api/customers').then(function(response) {
-			$log.log('customers response:', response, '*****');
-			$scope.customers = response.data;
 		});
 	};
 
@@ -61,13 +68,6 @@ angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http'
 			$scope.getInvoices();
 		}).catch(function(err) {
 			$log.error('selectCustomer error:', err);
-		});
-	};
-
-	$scope.getProducts = function() {
-		$http.get('/api/products').then(function(response) {
-			$log.log('products response:', response);
-			$scope.products = response.data;
 		});
 	};
 
@@ -93,20 +93,64 @@ angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http'
 	// getInvoices();
 }]);
 
-angular.module('invoiceApp').factory('InvoicesService', ['$http', '$log', function($http, $log) {
-	function InvoicesService() {};
-
-	InvoicesService.prototype.getInvoices = function(url) {
-		return $http.get(url).then(function(response) {
-			$log.log('getInvoices response:', response);
-		});
+angular.module('invoiceApp').service('DataService', ['$http', '$log', function($http, $log) {
+	// invoices operations
+	this.getInvoices = function(callback) {
+		$http.get('/api/invoices').then(callback);
 	};
-	return InvoicesService;
+
+	// post invoices
+
+	// get one invoice
+	this.getInvoice = function(invoiceId, callback) {
+		$http.get('/api/invoices/' + invoiceId).then(callback);
+	};
+
+	// post one invoice
+	this.addInvoice = function(callback) {
+		$http.post('/api/invoices', {}).then(callback);
+	};
+
+	// put one invoice
+	this.addCustomerToInvoice = function(invoiceId, customerId, callback) {
+		$http.put('/api/invoices/' + invoiceId, {customer_id: customerId}).then(callback);
+	}
+
+	// delete one invoice
+	this.deleteInvoice = function(id) {
+		$http.delete('api/invoices/' + id).then(function(response) {
+			$log.log('invoice delete response:', response);
+		});
+	}
+
+	// customers operations
+	this.getCustomers = function(callback) {
+		$http.get('/api/customers').then(callback);
+	};
+
+	this.getCustomer = function(customerId, callback) {
+		$http.get('/api/customers/' + customerId).then(callback);
+	}
+
+	// this.selectCustomer = function(invoice, customerId, callback) {
+	// 	$http.put('/api/invoices/' + invoice.id, {customer_id: customerId}).then(callback);
+	// }
+
+	// product operations
+	this.addInvoiceItem = function(itemId, invoiceId, callback) {
+		$http.post('/api/invoices/' + invoiceId + '/items/' + itemId).then(callback);
+	}
+
+
+	this.test = function() {
+		$log.log('testing')
+	}
 }]);
 
 angular.module('invoiceApp').directive('invoicesDirective', function() {
 	return {
 		templateUrl: 'js/modules/Invoices/invoices.html',
+		controllerAs: 'vm',
 		controller: 'InvoicesController'
 	}
 });
