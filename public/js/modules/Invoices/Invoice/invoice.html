@@ -24,7 +24,7 @@
 		</option>
 	</select>
 
-	<button type="button" class="btn btn-default" ng-click="ctrl.addProduct(ctrl.currentProduct, invoice.id)">add</button>	
+	<button type="button" class="btn btn-default" ng-click="ctrl.addProduct(ctrl.currentProduct, ctrl.invoice.id)">add</button>	
 
 	<table class="table selected-products">
 		<tr ng-repeat="item in ctrl.selectedProducts track by $index" ng-init="item.quantity = 1">

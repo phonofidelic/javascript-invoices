@@ -20,7 +20,7 @@ angular.module('invoiceApp').controller('InvoiceController', ['$scope', '$http',
 	};
 
 	ctrl.deleteInvoice = function() {
-		
+
 	}
 
 	ctrl.getCustomer = function(customerId) {
@@ -60,7 +60,7 @@ angular.module('invoiceApp').controller('InvoiceController', ['$scope', '$http',
 			$log.log('parsedItem:', parsedItem, 'invoiceId:', invoiceId)
 			ctrl.selectedProducts.push(parsedItem)
 
-			DataService.addInvoiceItem(parsedItem.id, invoiceId, function(response) {
+			DataService.addInvoiceItem(parsedItem, invoiceId, function(response) {
 				$log.log('addInvoiceItem response:', response);
 			})
 		}

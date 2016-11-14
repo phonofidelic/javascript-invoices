@@ -134,8 +134,8 @@ angular.module('invoiceApp').service('DataService', ['$http', '$log', function($
 	// }
 
 	// product operations
-	this.addInvoiceItem = function(itemId, invoiceId, callback) {
-		$http.post('/api/invoices/' + invoiceId + '/items/' + itemId).then(callback);
+	this.addInvoiceItem = function(item, invoiceId, callback) {
+		$http.post('/api/invoices/' + invoiceId + '/items', {item}).then(callback);
 	}
 
 
