@@ -138,6 +138,13 @@ angular.module('invoiceApp').service('DataService', ['$http', '$log', function($
 		$http.post('/api/invoices/' + invoiceId + '/items', {item}).then(callback);
 	}
 
+	this.updateInvoiceItem = function(invoiceId, itemId, item, callback) {
+		$http.put('/api/invoices/' + invoiceId + '/items/' + itemId, item).then(callback);
+	};
+
+	this.getInvoiceItems = function(invoiceId, callback) {
+		$http.get('/api/invoices/' + invoiceId + '/items').then(callback);
+	};
 
 	this.test = function() {
 		$log.log('testing')

@@ -1,4 +1,4 @@
-<form class="invoice-form well" ng-init="ctrl.getInvoice(invoice.id)">
+<form class="invoice-form well" ng-init="ctrl.getInvoice(invoice.id, vm.products)">
 {{invoice.id}}
 	<h3 ng-init="ctrl.getCustomer(ctrl.invoice.customer_id)">Invoice for {{ctrl.customer.name}}
 	<!-- {{invoice}} -->
@@ -33,7 +33,13 @@
 				<span class="selected-product-name">{{item.name}}</span>
 			</td>
 			<td>
-				<input type="number" name="" ng-model="item.quantity">
+				<label for="quantity"> quantity:
+					<input id="quantity" 
+						   type="number" 
+						   name="quantity" 
+						   ng-model="item.quantity"
+						   ng-change="ctrl.updateProductQuantity(ctrl.invoice.id, item.id, item.itemId, item.quantity)">	
+				</label>
 			</td>
 			<td>
 				<span class="item-price">{{item.price}}</span>

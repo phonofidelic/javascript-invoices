@@ -5,7 +5,7 @@ angular.module('invoiceApp').controller('InvoiceController', ['$scope', '$http',
 	// ctrl.invoice = {};	
 	ctrl.selectedProducts = [];
 
-	ctrl.getInvoice = function(invoiceId) {
+	ctrl.getInvoice = function(invoiceId, products) {
 		DataService.getInvoice(invoiceId, function(response) {
 			$log.log('getInvoice response:', response);
 			ctrl.invoice = response.data;
@@ -17,6 +17,8 @@ angular.module('invoiceApp').controller('InvoiceController', ['$scope', '$http',
 				});
 			}
 		});
+
+		ctrl.getInvoiceItems(invoiceId, products);
 	};
 
 	ctrl.deleteInvoice = function() {
@@ -60,10 +62,50 @@ angular.module('invoiceApp').controller('InvoiceController', ['$scope', '$http',
 			$log.log('parsedItem:', parsedItem, 'invoiceId:', invoiceId)
 			ctrl.selectedProducts.push(parsedItem)
 
-			DataService.addInvoiceItem(parsedItem, invoiceId, function(response) {
+			var formattedItem = {
+				invoice_id: invoiceId,
+				product_id: parsedItem.id,
+				quantity: 1
+			};
+
+			DataService.addInvoiceItem({}, invoiceId, function(response) {
 				$log.log('addInvoiceItem response:', response);
-			})
+				$http.put('/api/invoices/' + invoiceId + '/items/' + response.data.id, formattedItem).then(function(response) {
+					$log.log('addInvoiceItem put response:', response)
+				});
+			});
 		}
+	};
+
+	ctrl.updateProductQuantity = function(invoiceId, productId, itemId, quantity) {
+		$log.log('update', quantity)
+		var item = {
+			id: itemId,
+			invoice_id: invoiceId,
+			product_id: productId,
+			quantity: quantity
+		}
+		DataService.updateInvoiceItem(invoiceId, itemId, item, function(response) {
+			$log.log('updateProduct response:', response);
+		});
+	};
+
+	ctrl.getInvoiceItems = function(invoiceId, products) {
+		DataService.getInvoiceItems(invoiceId, function(response) {
+			$log.log('getInvoiceItems response:', response);
+			ctrl.invoiceItems = response.data;
+
+			// translate invoice items data to product data
+			ctrl.invoiceItems.forEach(function(invoiceItem) {
+				products.forEach(function(product) {
+					if(product.id === invoiceItem.product_id) {
+						var selectedProduct = product;
+						product.itemId = invoiceItem.id;
+						ctrl.selectedProducts.push(selectedProduct);
+					}
+				})
+			});
+		});
 	};
 	
 }]);
