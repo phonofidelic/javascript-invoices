@@ -6,17 +6,12 @@ angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http'
 	vm.products = [];
 	vm.selectedProducts = [];
 
-
-	// vm.getInvoices = function() {
+	vm.getInvoices = function() {
 		DataService.getInvoices(function(response) {
 			$log.log('getInvoices:', response);
 			vm.invoices = response.data;
 		});
-		// $http.get('/api/invoices').then(function(response) {
-		// 	$log.log('getInvoices response:', response);
-		// 	$scope.invoices = response.data;
-		// });
-	// };
+	};
 
 	// get customers
 	DataService.getCustomers(function(response) {
@@ -36,6 +31,8 @@ angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http'
 			vm.invoices.push({});
 			$http.post('/api/invoices/' + response.data.id + '/items/').then(function(response) {
 				$log.log('add invoice items response:', response)
+				// update invoices
+				vm.getInvoices();
 			})
 		});
 	};

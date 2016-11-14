@@ -1,6 +1,6 @@
 angular.module('invoiceApp').controller('InvoiceController', ['$scope', '$http', '$log', 'DataService', function($scope, $http, $log, DataService) {
 	var ctrl = this;
-	$log.log('ctrl:', ctrl)
+	// $log.log('ctrl:', ctrl)
 	// ctrl.selectedCustomer = {};
 	// ctrl.invoice = {};	
 	ctrl.selectedProducts = [];
@@ -10,12 +10,18 @@ angular.module('invoiceApp').controller('InvoiceController', ['$scope', '$http',
 			$log.log('getInvoice response:', response);
 			ctrl.invoice = response.data;
 
-			DataService.getCustomer(ctrl.invoice.customer_id, function(response) {
-				$log.log('getCustomer response:', response);
-				ctrl.customer = response.data;
-			});
+			if (angular.isDefined(ctrl.invoice.customer_id)) {
+				DataService.getCustomer(ctrl.invoice.customer_id, function(response) {
+					$log.log('getCustomer response:', response);
+					ctrl.customer = response.data;
+				});
+			}
 		});
 	};
+
+	ctrl.deleteInvoice = function() {
+		
+	}
 
 	ctrl.getCustomer = function(customerId) {
 		if (angular.isDefined(customerId)) {
@@ -24,9 +30,7 @@ angular.module('invoiceApp').controller('InvoiceController', ['$scope', '$http',
 				ctrl.customer = response.data;
 			});
 		}
-	}
-
-	// DataService.getCustomer()
+	};
 
 	ctrl.addCustomerToInvoice = function(invoice, customer) {
 		$log.log('customer:', customer)

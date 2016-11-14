@@ -1,4 +1,4 @@
-<h2 ng-init="getInvoices()">Invoices</h2>
+<h2 ng-init="vm.getInvoices()">Invoices</h2>
 <!-- <div>
 	<ul>
 		<li ng-repeat="invoice in invoices">id: {{invoice.invoice_id}}</li>
@@ -9,4 +9,7 @@
 		ng-click="vm.addInvoice()">Create new invoice
 </button>
 
-<invoice-component ng-controller="InvoiceController as ctrl" ng-repeat="invoice in vm.invoices"></invoice-component>
+<div ng-repeat="invoice in vm.invoices">
+<invoice-component ng-controller="InvoiceController as ctrl">
+</invoice-component>
+</div>
