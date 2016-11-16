@@ -39,6 +39,14 @@ angular.module('invoiceApp').service('DataService', ['$http', '$log', function($
 		$http.post('/api/customers/', data).then(callback);
 	};
 
+	this.deleteCustomer = function(customerId, callback) {
+		$http.delete('/api/customers/' + customerId).then(callback);
+	};
+
+	this.editCustomer = function(customerId, data, callback) {
+		$http.put('/api/customers/' + customerId, data).then(callback);
+	};
+
 	// product operations
 	this.addInvoiceItem = function(item, invoiceId, callback) {
 		$http.post('/api/invoices/' + invoiceId + '/items', {item}).then(callback);

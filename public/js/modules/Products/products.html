@@ -1,14 +1,14 @@
 
 <h2 ng-init="vm.getProducts()">Products</h2>
 
-<button type="submit" 
+<button type="button" 
 		name="add-new-product"
-	    class="btn btn-default btn-block add-new-product-btn"
+	    class="btn btn-default btn-block add-new-item-btn"
 	    ng-click="newProductForm = !newProductForm"
 	    ng-class="{active: newProductForm}">Add a new product
 </button>
 
-<form class="new-product-form well" ng-show="newProductForm">
+<form class="new-item-form well" ng-show="newProductForm">
 	<div class="form-group">
 		<label for="new-product-name">Product name:</label>
 		<input type="text" 
@@ -30,13 +30,11 @@
 		</div>
 	</div>
 
-	<!-- <div class="form-group"> -->
-		<button type="submit" 
-			   name="save-new-product"
-			   class="btn btn-default btn-block new-product-submit-btn"
-			   ng-click="vm.addProduct()">save
-		</button>
-	<!-- </div> -->
+	<button type="submit" 
+		   name="save-new-product"
+		   class="btn btn-default btn-block new-item-submit-btn"
+		   ng-click="vm.addProduct()">save
+	</button>
 </form>
 
 <table class="table">
@@ -79,7 +77,9 @@
 					ng-class="{active: product.editing}"
 					ng-click="product.editing = !product.editing">
 				<span ng-show="!product.editing">edit</span>
-				<span ng-show="product.editing" ng-click="vm.editProduct(product.id, product)">save</span>
+				<span ng-show="product.editing" 
+					  ng-click="vm.editProduct(product.id, product)">save
+				</span>
 			</button>
 		</td>	
 	</tr>

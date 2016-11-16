@@ -44,16 +44,20 @@
 	/*float: right;*/
 }
 
-.new-product-form {
+.new-item-form {
 	/*max-width: 350px;*/
 }
 
-.new-product-submit-btn {
+.new-item-submit-btn {
 	margin-top: 20px;
 	display: inline-block;
 }
 
-.add-new-product-btn {
+.add-new-item-btn {
 	margin-bottom: 20px;
 	display: inline-block;
+}
+
+.table-header {
+	border: none;
 }
