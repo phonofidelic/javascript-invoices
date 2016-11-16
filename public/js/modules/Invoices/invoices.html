@@ -1,3 +1,4 @@
+<!-- <div ng-controller="Invoices as vm"> -->
 <h2 ng-init="vm.getInvoices()">Invoices</h2>
 <!-- <div>
 	<ul>
@@ -9,7 +10,69 @@
 		ng-click="vm.addInvoice()">Create new invoice
 </button>
 
+<button type="button" 
+		class="btn btn-default" 
+		ng-click="addCustomerVisible = !addCustomerVisible">Add a new customer
+</button>
+
+<button type="button" 
+		class="btn btn-default" 
+		ng-click="addProductVisible = !addProductVisible">Add a new product
+</button>
+
+<div ng-show="addCustomerVisible">
+	<form class="invoice-form well" ng-submit="vm.addCustomer()">
+		<h3>Add customer</h3>
+
+		<label for="new-customer-name">Name:
+			<input id="new-customer-name" 
+				   type="text" 
+				   name="new-customer-name"
+				   ng-model="vm.newCustomer.name">
+		</label>
+
+		<label for="new-customer-address">Address:
+			<input id="new-customer-address" 
+				   type="text" 
+				   name="new-customer-address"
+				   ng-model="vm.newCustomer.address">
+		</label>
+
+		<label for="new-customer-phone">Phone:
+		<input id="new-customer-phone" 
+			   type="text" 
+			   name="new-customer-phone"
+			   ng-model="vm.newCustomer.phone">
+		</label>
+
+		<input class="btn btn-default" type="submit" name="">
+	</form>
+</div>
+
+<div ng-show="addProductVisible">
+	<form class="invoice-form well" ng-submit="vm.addProduct()">
+		<h3>Add product</h3>
+
+		<label for="new-product-name">Name:
+			<input id="new-product-name" 
+				   type="text" 
+				   name="new-product-name"
+				   ng-model="vm.newProductr.name">
+		</label>
+
+		<label for="new-product-price">Address:
+			<input id="new-product-price" 
+				   type="text" 
+				   name="new-product-price"
+				   ng-model="vm.newProduct.price">
+		</label>
+
+		<input class="btn btn-default" type="submit" name="">
+	</form>
+</div>
+
 <div ng-repeat="invoice in vm.invoices">
 <invoice-component ng-controller="InvoiceController as ctrl">
 </invoice-component>
 </div>
+<!-- </div> -->

@@ -1,35 +1,39 @@
-<form class="invoice-form well" ng-init="ctrl.getInvoice(invoice.id, vm.products)">
-{{invoice.id}}
+<div class="well invoice">
+<form class="invoice-form" ng-init="ctrl.getInvoice(invoice.id, vm.products)">
+	
+	<div class="invoice-id">invoice id: {{invoice.id}}</div>
+
 	<h3 ng-init="ctrl.getCustomer(ctrl.invoice.customer_id)">Invoice for {{ctrl.customer.name}}
 	<!-- {{invoice}} -->
 	</h3>
+	
+	<div class="customers-select">
+		<label for="customers">Select a customer:</label>
+		<select id="customers" name="customers" ng-model="ctrl.customer" ng-blur="ctrl.addCustomerToInvoice(ctrl.invoice.id, ctrl.customer)">	
+			<option ng-repeat="customer in vm.customers" 
+					value="{{customer}}"
+					>{{customer.name}}, id: {{customer.id}}
+			</option>
+		</select>
+	</div>
 
-	<label for="customers">
-		<input list="customers" 
-			   name="customers" 
-			   ng-model="ctrl.invoice"
-			   ng-click ="ctrl.invoice = ''"
-			   ng-blur="ctrl.addCustomerToInvoice(invoice.id, ctrl.invoice)">
-	</label>
-	<datalist id="customers">
-		<option ng-repeat="customer in vm.customers"
-				value="{{customer.name}}, id: {{customer.id}}" />
-	</datalist>
+	<div class="products-select">
+		<label for="products">Add products:
+		</label>
+		<select id="products" ng-model="ctrl.currentProduct">
+			<option ng-repeat="product in vm.products track by $index" 
+					value="{{product}}">{{product.name}}
+			</option>
+		</select>
+		<button type="button" class="btn btn-default" ng-click="ctrl.addProduct(ctrl.currentProduct, ctrl.invoice.id)">add</button>	
+	</div>
 
-	<label for="products">Add products:
-	</label>
-	<select id="products" ng-model="ctrl.currentProduct">
-		<option ng-repeat="product in vm.products track by $index" 
-				value="{{product}}">{{product.name}}
-		</option>
-	</select>
-
-	<button type="button" class="btn btn-default" ng-click="ctrl.addProduct(ctrl.currentProduct, ctrl.invoice.id)">add</button>	
+	
 
 	<table class="table selected-products">
-		<tr ng-repeat="item in ctrl.selectedProducts track by $index" ng-init="item.quantity = 1">
+		<tr ng-repeat="item in ctrl.selectedProducts track by $index">
 			<td>
-				<span class="delete-item" ng-click="deleteProduct($index)">&#10006;</span> 
+				<span class="delete-item" ng-click="ctrl.deleteProduct(ctrl.invoice.id, item.itemId, vm.products, $index)">&#10006;</span> 
 				<span class="selected-product-name">{{item.name}}</span>
 			</td>
 			<td>
@@ -44,11 +48,25 @@
 			<td>
 				<span class="item-price">{{item.price}}</span>
 			</td>
-			<td>total: {{item.price * item.quantity}}</td>
+			<td ng-init="ctrl.getTotal()">total: {{(item.price * item.quantity).toFixed(2)}}</td>
 		</tr>
 	</table>
-	<div ng-model="productTotal"><h4>Total:</h4></div>
-
-	<button type="button" class="btn btn-danger" ng-click="vm.deleteInvoice(invoice.id, $index)">cancle</button>
 
 </form>
+
+	<div>
+		<div class="discount">Discount: 
+			<label for="discount">
+				<input id="discount" 
+					   type="number" 
+					   name="discount"
+					   ng-model="ctrl.invoice.discount"
+					   ng-change="ctrl.applyDiscount(ctrl.invoice.total, ctrl.invoice.discount)">%
+			</label>
+		</div>
+
+		<div class="total" ng-model="productTotal"><h4>Total: {{(ctrl.invoice.discountedTotal).toFixed(2)}}</h4></div>
+	</div>
+
+	<button type="button" class="btn btn-danger" ng-click="vm.deleteInvoice(invoice.id, $index)">Delete invoice</button>
+</div>
