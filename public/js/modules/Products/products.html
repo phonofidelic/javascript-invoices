@@ -15,7 +15,7 @@
 			   name="new-product-name"
 			   id="new-product-name"
 			   class="form-control pull-right"
-			   ng-model="newProduct.name" />	
+			   ng-model="vm.newProduct.name" />	
 	</div>
 
 	<div class="form-group">
@@ -26,14 +26,16 @@
 			   name="new-product-price"
 			   id="new-product-price"
 			   class="form-control" 
-			   ng-model="newProduct.price" />
+			   ng-model="vm.newProduct.price" />
 		</div>
 	</div>
 
 	<!-- <div class="form-group"> -->
 		<button type="submit" 
 			   name="save-new-product"
-			   class="btn btn-default btn-block new-product-submit-btn">save</button>
+			   class="btn btn-default btn-block new-product-submit-btn"
+			   ng-click="vm.addProduct()">save
+		</button>
 	<!-- </div> -->
 </form>
 

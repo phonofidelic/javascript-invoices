@@ -11,7 +11,14 @@ angular.module('invoiceApp').controller('ProductsController', ['$scope', '$http'
 		});
 	};
 
-
+	vm.addProduct = function() {
+		vm.newProduct.price = parseFloat(vm.newProduct.price);
+		$log.log('vm.newProduct:', vm.newProduct);
+		DataService.addProduct(vm.newProduct, function(response) {
+			$log.log('addProduct response:', response);
+			vm.getProducts();
+		});
+	};
 }]);
 
 angular.module('invoiceApp').directive('productsDirective', function() {
