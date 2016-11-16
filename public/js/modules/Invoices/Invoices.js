@@ -13,17 +13,20 @@ angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http'
 		});
 	};
 
-	// get customers
-	DataService.getCustomers(function(response) {
-		$log.log('getCustomers:', response);
-		vm.customers = response.data;
-	});
+	vm.getCustomers = function() {
+		DataService.getCustomers(function(response) {
+			$log.log('getCustomers:', response);
+			vm.customers = response.data;
+		});
+	};
 
-	// get products
-	$http.get('/api/products').then(function(response) {
-		$log.log('products response:', response);
-		vm.products = response.data;
-	});
+	vm.getProducts = function() {
+		DataService.getProducts(function(response) {
+			$log.log('getProducts response:', response);
+
+			vm.products = response.data;
+		});
+	};
 
 	vm.addInvoice = function() {
 		DataService.addInvoice(function(response) {
@@ -51,6 +54,7 @@ angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http'
 	vm.addCustomer = function() {
 		DataService.addCustomer(vm.newCustomer, function(response) {
 			$log.log('addCustomer response:', response);
+			vm.getCustomers();
 		});
 	};
 
@@ -58,6 +62,7 @@ angular.module('invoiceApp').controller('InvoicesController', ['$scope', '$http'
 		vm.newProduct.price = parseFloat(vm.newProduct.price);
 		DataService.addProduct(vm.newProduct, function(response) {
 			$log.log('addProduct reaponse:', response);
+			vm.getProducts();
 		})
 	}
 }]);

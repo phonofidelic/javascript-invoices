@@ -1,5 +1,5 @@
 <!-- <div ng-controller="Invoices as vm"> -->
-<h2 ng-init="vm.getInvoices()">Invoices</h2>
+<h2 ng-init="vm.getInvoices(); vm.getProducts(); getCustomers();">Invoices</h2>
 <!-- <div>
 	<ul>
 		<li ng-repeat="invoice in invoices">id: {{invoice.invoice_id}}</li>
@@ -57,10 +57,10 @@
 			<input id="new-product-name" 
 				   type="text" 
 				   name="new-product-name"
-				   ng-model="vm.newProductr.name">
+				   ng-model="vm.newProduct.name">
 		</label>
 
-		<label for="new-product-price">Address:
+		<label for="new-product-price">Price:
 			<input id="new-product-price" 
 				   type="text" 
 				   name="new-product-price"
