@@ -1,2 +1,2 @@
 'use-strict';
-angular.module('invoiceApp', []);
+angular.module('invoiceApp', ['ngRoute']);

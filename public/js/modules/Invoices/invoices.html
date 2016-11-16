@@ -1,4 +1,5 @@
-<h2 ng-init="getInvoices()">Invoices</h2>
+<!-- <div ng-controller="Invoices as vm"> -->
+<h2 ng-init="vm.getInvoices()">Invoices</h2>
 <!-- <div>
 	<ul>
 		<li ng-repeat="invoice in invoices">id: {{invoice.invoice_id}}</li>
@@ -6,65 +7,72 @@
 </div> -->
 <button type="button" 
 		class="btn btn-default" 
-		ng-init="showForm = false"
-		ng-click="getProducts(); addInvoice(); showForm = !showForm">Create new invoice
+		ng-click="vm.addInvoice()">Create new invoice
 </button>
 
-<form class="invoice-form well" ng-init="getProducts(); getCustomers()" ng-repeat="invoice in invoices">
-	<h3>Invoice for 
-		<button type="button" 
-				class="btn btn-default" 
-				ng-click="showCustomers = !showCustomers">{{invoice.customer_id}}
-		</button>
-	</h3>
+<button type="button" 
+		class="btn btn-default" 
+		ng-click="addCustomerVisible = !addCustomerVisible">Add a new customer
+</button>
 
-	<div ng-show="showCustomers" 
-		 ng-repeat="customer in customers" 
-		 ng-click="selectCustomer(invoice, customer)">{{customer.name}} {{customer.id}}
-	</div>
+<button type="button" 
+		class="btn btn-default" 
+		ng-click="addProductVisible = !addProductVisible">Add a new product
+</button>
 
-<!-- 	<label for="customers">Select a customer:
-	<input list="customers" name="customers" ng-model="selectedCustomer" ng-blur="selectCustomer(invoice, selectedCustomer)" /></label>
-	<datalist id="customers">
-		<option ng-repeat="customer in customers" 
-				value="{{customer}}">
-	</datalist> -->
+<div ng-show="addCustomerVisible">
+	<form class="invoice-form well" ng-submit="vm.addCustomer()">
+		<h3>Add customer</h3>
 
-<!-- 	<label for="customers">Select a customer:
-	</label>
-	<select id="customers" ng-model="selectedCustomer" ng-blur="selectCustomer(invoice, selectedCustomer)">
-		<option ng-repeat="customer in customers" 
-				value="{{customer}}">id: {{customer.id}}, name: {{customer.name}}
-		</option>
-	</select> -->
+		<label for="new-customer-name">Name:
+			<input id="new-customer-name" 
+				   type="text" 
+				   name="new-customer-name"
+				   ng-model="vm.newCustomer.name">
+		</label>
 
-	<label for="products">Add products:
-	</label>
-	<select id="products" ng-model="currentProduct">
-		<option ng-repeat="product in products track by $index" 
-				value="{{product}}">{{product.name}}
-		</option>
-	</select>
+		<label for="new-customer-address">Address:
+			<input id="new-customer-address" 
+				   type="text" 
+				   name="new-customer-address"
+				   ng-model="vm.newCustomer.address">
+		</label>
 
-	<button type="button" class="btn btn-default" ng-click="addProduct(currentProduct, invoice.id)">add</button>
+		<label for="new-customer-phone">Phone:
+		<input id="new-customer-phone" 
+			   type="text" 
+			   name="new-customer-phone"
+			   ng-model="vm.newCustomer.phone">
+		</label>
 
-	<table class="table selected-products" ng-show="selectedProducts">
-		<tr ng-repeat="item in selectedProducts track by $index" ng-init="item.quantity = 1">
-			<td>
-				<span class="delete-item" ng-click="deleteProduct($index)">&#10006;</span> 
-				<span class="selected-product-name">{{item.name}}</span>
-			</td>
-			<td>
-				<input type="number" name="" ng-model="item.quantity">
-			</td>
-			<td>
-				<span class="item-price">{{item.price}}</span>
-			</td>
-			<td>total: {{item.price * item.quantity}}</td>
-		</tr>
-	</table>
-	<div ng-model="productTotal"><h4>Total:</h4></div>
+		<input class="btn btn-default" type="submit" name="">
+	</form>
+</div>
 
-	<button type="button" class="btn btn-danger" ng-click="deleteInvoice(invoice.id, $index)">cancle</button>
-	{{invoice.id}}
-</form>
+<div ng-show="addProductVisible">
+	<form class="invoice-form well" ng-submit="vm.addProduct()">
+		<h3>Add product</h3>
+
+		<label for="new-product-name">Name:
+			<input id="new-product-name" 
+				   type="text" 
+				   name="new-product-name"
+				   ng-model="vm.newProductr.name">
+		</label>
+
+		<label for="new-product-price">Address:
+			<input id="new-product-price" 
+				   type="text" 
+				   name="new-product-price"
+				   ng-model="vm.newProduct.price">
+		</label>
+
+		<input class="btn btn-default" type="submit" name="">
+	</form>
+</div>
+
+<div ng-repeat="invoice in vm.invoices">
+<invoice-component ng-controller="InvoiceController as ctrl">
+</invoice-component>
+</div>
+<!-- </div> -->

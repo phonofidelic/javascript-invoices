@@ -1,0 +1,80 @@
+
+<h2 ng-init="vm.getProducts()">Products</h2>
+
+<button type="submit" 
+		name="add-new-product"
+	    class="btn btn-default btn-block add-new-product-btn"
+	    ng-click="newProductForm = !newProductForm"
+	    ng-class="{active: newProductForm}">Add a new product
+</button>
+
+<form class="new-product-form well" ng-show="newProductForm">
+	<div class="form-group">
+		<label for="new-product-name">Product name:</label>
+		<input type="text" 
+			   name="new-product-name"
+			   id="new-product-name"
+			   class="form-control pull-right"
+			   ng-model="newProduct.name" />	
+	</div>
+
+	<div class="form-group">
+		<label for="new-product-price">Price:</label>
+		<div class="input-group pull-right">
+		<div class="input-group-addon">$</div>
+		<input type="text" 
+			   name="new-product-price"
+			   id="new-product-price"
+			   class="form-control" 
+			   ng-model="newProduct.price" />
+		</div>
+	</div>
+
+	<!-- <div class="form-group"> -->
+		<button type="submit" 
+			   name="save-new-product"
+			   class="btn btn-default btn-block new-product-submit-btn">save</button>
+	<!-- </div> -->
+</form>
+
+<table class="table">
+	<tr ng-repeat="product in vm.products">
+		<td>{{product.id}}</td>
+		<td>
+			<span ng-show="!product.editing">{{product.name}}</span>
+			<span ng-show="product.editing">
+				<label for="product-name">
+					<input id="product-name" 
+						   type="text" 
+						   value="{{product.name}}"
+						   name="product-name"/>
+				</label>				
+			</span>
+		</td>
+		<td>
+			<span ng-show="!product.editing">{{product.price}}</span>
+			<span ng-show="product.editing">
+				<label for="product-price">
+					<input id="product-price" 
+						   type="text" 
+						   value="{{product.price}}"
+						   name="product-price"/>
+				</label>				
+			</span>
+		</td>
+		<td>
+			<span class="delete-item" ng-show="product.editing">
+				<button type="button" class="btn btn-danger btn-sm">delete</button>
+			</span>
+		</td>
+		<td>
+			<button type="button" 
+					class="btn btn-default btn-sm"
+					ng-class="{active: product.editing}"
+					ng-click="product.editing = !product.editing">
+				<span ng-show="!product.editing">edit</span>
+				<span ng-show="product.editing">save</span>
+			</button>
+		</td>	
+	</tr>
+</table>

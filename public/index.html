@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/css/app.css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+    <script type="text/javascript" src="https://code.angularjs.org/1.5.8/angular-route.min.js"></script>
   </head>
   <body>
 
@@ -27,21 +28,28 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Customers</a></li>
-            <li><a href="#">Invoices</a></li>
+            <li><a href="#/products">Products</a></li>
+            <li><a href="#/customers">Customers</a></li>
+            <li><a href="#/invoices">Invoices</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-      <invoices-directive></invoices-directive>
+      <ng-view></ng-view>
+      <!-- <invoices-directive></invoices-directive> -->
+      
     </div> <!-- /container -->
 
     <script type="text/javascript" src="/js/lib/jquery/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/app.module.js"></script>
+    <script type="text/javascript" src="/js/app.config.js"></script>
     <script type="text/javascript" src="/js/modules/Invoices/Invoices.js"></script>
+    <script type="text/javascript" src="/js/modules/Invoices/Invoice/Invoice.js"></script>
+    <script type="text/javascript" src="/js/modules/Products/Products.js"></script>
+    <script type="text/javascript" src="/js/modules/Customers/Customers.js"></script>
+    <script type="text/javascript" src="/js/modules/Services/DataService.js"></script>
   </body>
 </html>
