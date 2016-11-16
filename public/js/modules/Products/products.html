@@ -40,7 +40,7 @@
 </form>
 
 <table class="table">
-	<tr ng-repeat="product in vm.products">
+	<tr ng-repeat="product in vm.products track by $index">
 		<td>{{product.id}}</td>
 		<td>
 			<span ng-show="!product.editing">{{product.name}}</span>
@@ -49,6 +49,7 @@
 					<input id="product-name" 
 						   type="text" 
 						   value="{{product.name}}"
+						   ng-model="product.name"
 						   name="product-name"/>
 				</label>				
 			</span>
@@ -60,13 +61,16 @@
 					<input id="product-price" 
 						   type="text" 
 						   value="{{product.price}}"
+						   ng-model="product.price"
 						   name="product-price"/>
 				</label>				
 			</span>
 		</td>
 		<td>
 			<span class="delete-item" ng-show="product.editing">
-				<button type="button" class="btn btn-danger btn-sm">delete</button>
+				<button type="button" 
+						class="btn btn-danger btn-sm"
+						ng-click="vm.deleteProduct(product.id, $index)">delete</button>
 			</span>
 		</td>
 		<td>
@@ -75,7 +79,7 @@
 					ng-class="{active: product.editing}"
 					ng-click="product.editing = !product.editing">
 				<span ng-show="!product.editing">edit</span>
-				<span ng-show="product.editing">save</span>
+				<span ng-show="product.editing" ng-click="vm.editProduct(product.id, product)">save</span>
 			</button>
 		</td>	
 	</tr>

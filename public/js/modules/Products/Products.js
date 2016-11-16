@@ -19,6 +19,21 @@ angular.module('invoiceApp').controller('ProductsController', ['$scope', '$http'
 			vm.getProducts();
 		});
 	};
+
+	vm.deleteProduct = function(id, index) {
+		DataService.deleteProduct(id, function(response) {
+			$log.log('deleteProduct response:', response);
+			vm.products.splice(index, 1);
+		});
+	};
+
+	vm.editProduct = function(id, data) {
+		console.log(data)
+		DataService.editProduct(id, data, function(response) {
+			$log.log('editProduct response:', response);
+			vm.getProducts();
+		});
+	};
 }]);
 
 angular.module('invoiceApp').directive('productsDirective', function() {

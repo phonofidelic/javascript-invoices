@@ -65,4 +65,12 @@ angular.module('invoiceApp').service('DataService', ['$http', '$log', function($
 	this.addProduct = function(data, callback) {
 		$http.post('api/products/', data).then(callback);
 	};
+
+	this.deleteProduct = function(productId, callback) {
+		$http.delete('/api/products/' + productId).then(callback);
+	};
+
+	this.editProduct = function(productId, data, callback) {
+		$http.put('/api/products/' + productId, data).then(callback);
+	};
 }]);
